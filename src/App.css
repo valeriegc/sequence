@@ -4,6 +4,9 @@
   padding: 2rem;
   text-align: center;
 }
+.card{
+  width: 40px;
+}
 
 .logo {
   height: 6em;

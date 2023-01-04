@@ -2,20 +2,32 @@ import Diamonds from "./Diamonds";
 import Clubs from "./Clubs";
 import Hearts from "./Hearts";
 import Spades from "./Spades";
-import { Suit, Value } from "./CardTypes";
+import { Suit, Value, Coin, Status, Id } from "./CardTypes";
 
-const Card = ({ suit, value }: { suit: Suit; value: Value }) => {
+const Card = ({
+  suit,
+  value,
+  coin,
+  status,
+  id,
+}: {
+  suit: Suit;
+  value: Value;
+  coin: Coin;
+  status: Status;
+  id: Id;
+}) => {
   return (
-    <div>
+    <div className="card">
       {(() => {
         switch (suit) {
-          case "S":
+          case "Spades":
             return <Spades value={value} />;
-          case "H":
+          case "Hearts":
             return <Hearts value={value} />;
-          case "C":
+          case "Clubs":
             return <Clubs value={value} />;
-          case "D":
+          case "Diamonds":
             return <Diamonds value={value} />;
         }
       })()}
