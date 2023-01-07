@@ -1,7 +1,12 @@
-import { Suit } from "./CardTypes";
+import { Coin, Status, Suit, Value } from "./CardTypes";
 
 const buildDeck = () => {
-  const deck = [];
+  const deck: {
+    suit: Suit;
+    value: Value;
+    coin: Coin;
+    status: Status;
+  }[] = [];
   let givenSuit: Suit;
   for (let j = 0; j < 8; j++) {
     if (j == 0 || j == 4) {
@@ -27,7 +32,7 @@ const buildDeck = () => {
           suit: givenSuit,
           coin: "empty",
           status: false,
-          value: i,
+          value: i as unknown as Value, //TODO: Dont use typecasting!
         });
       } else if (i == 11) {
         deck.push({
