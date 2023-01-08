@@ -3,6 +3,8 @@ import Clubs from "./Clubs";
 import Hearts from "./Hearts";
 import Spades from "./Spades";
 import { Suit, Value, Coin, Status, Id } from "./CardTypes";
+import Corner from "./Corner";
+import CoinComp from "./Coin";
 
 const Card = ({
   suit,
@@ -29,8 +31,13 @@ const Card = ({
             return <Clubs value={value} />;
           case "Diamonds":
             return <Diamonds value={value} />;
+          case "Corner":
+            return <Corner />;
         }
       })()}
+      <div className="coinWrapper">
+        {coin == "Gold" || coin == "Silver" ? <CoinComp color={coin} /> : null}
+      </div>
     </div>
   );
 };

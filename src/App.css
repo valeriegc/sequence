@@ -12,6 +12,7 @@
 }
 .card{
   width: 40px;
+  position:relative;
 }
 
 .read-the-docs {
@@ -20,7 +21,6 @@
 
 
 .board{
-  border: 1px red solid;
   width:600px;
   display:grid;
   gap: 0px;
@@ -30,5 +30,21 @@
 .hand{
   display:flex;
   gap: 30px;
-  border: solid red 1px;
+}
+
+.zoomer{
+  height:300px;
+  width:300px;
+}
+
+.cornerCard{
+  position: relative;
+}
+
+.cornerCoin,
+.coinWrapper{
+  position: absolute;
+  top: 12px;
+  left: 2.5px;
+  width: 35px;
 }
