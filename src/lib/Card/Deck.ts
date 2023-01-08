@@ -6,6 +6,7 @@ const buildDeck = (location) => {
     value: Value;
     coin: Coin;
     status: Status;
+    name: string
   }[] = [];
   let givenSuit: Suit;
   for (let j = 0; j < 8; j++) {
@@ -26,13 +27,15 @@ const buildDeck = (location) => {
           coin: "Empty",
           status: false,
           value: "A",
+          name: "A" + givenSuit
         });
       } else if (i > 1 && i < 11) {
         deck.push({
           suit: givenSuit,
           coin: "Empty",
           status: false,
-          value: i as unknown as Value, //TODO: Dont use typecasting!
+          value: i as unknown as Value, 
+          name: i + givenSuit
         });
       } else if (i == 11) {
         deck.push({
@@ -40,6 +43,7 @@ const buildDeck = (location) => {
           coin: "Empty",
           status: false,
           value: "Q",
+          name: "Q" + givenSuit
         });
       } else if (i == 12) {
         deck.push({
@@ -47,6 +51,7 @@ const buildDeck = (location) => {
           coin: "Empty",
           status: false,
           value: "K",
+          name: "K"+ givenSuit
         });
       }
     }
@@ -56,7 +61,8 @@ const buildDeck = (location) => {
     suit: "Corner",
     coin: "Corner",
     status: false,
-    value: "C"
+    value: "C",
+    name: "C" + givenSuit
   }
   deck.push(cardToPush)
   deck.unshift(cardToPush)

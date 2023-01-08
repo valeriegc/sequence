@@ -18,7 +18,9 @@
 .read-the-docs {
   color: #888;
 }
-
+.pointer{
+  cursor:pointer;
+}
 
 .board{
   width:600px;
