@@ -1,3 +1,4 @@
+import { initializeStack } from "../../Stack";
 import { Coin, Status, Suit, Value } from "./CardTypes";
 
 const buildDeck = (location) => {
@@ -68,6 +69,18 @@ const buildDeck = (location) => {
   deck.unshift(cardToPush)
   deck.splice(9, 0, cardToPush)
   deck.splice(90, 0, cardToPush)
+  }
+  if(location =="stack"){
+  ["Hearts", "Diamonds","Spades","Clubs"].forEach(c => {
+  let cardToPush = { suit: c,
+  coin: "Empty",
+  status: false,
+  value: "J",
+  name: "J" + c
+  }
+  deck.push({...cardToPush})
+  deck.push({...cardToPush})
+  })
   }
   return deck
 };

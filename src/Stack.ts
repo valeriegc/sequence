@@ -1,7 +1,7 @@
 import buildDeck from "./lib/Card/Deck";
 
 export const initializeStack = () => {
-     let stack = buildDeck()
+     let stack = buildDeck("stack")
      const hand = []
      for (let i=0; i<5; i++){
         let [newStack, card] = cardPicker(stack)

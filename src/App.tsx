@@ -11,8 +11,18 @@ function App() {
 
   const [getHand, setHand] = useState(hand);
 
-  const updateHand = (name) => {
+  const updateHand = (name, wasRemoval) => {
     let index = getHand.findIndex((c) => c.name == name);
+    console.log(index);
+    if (index == -1 && !wasRemoval) {
+      index = getHand.findIndex(
+        (c) => c.name == "JSpades" || c.name == "JClubs"
+      );
+    } else if (index == -1 && wasRemoval) {
+      index = getHand.findIndex(
+        (c) => c.name == "JHearts" || c.name == "JDiamonds"
+      );
+    }
     let [newStack, card] = cardPicker(stack);
     getHand.splice(index, 1, card);
     setHand([...getHand]);

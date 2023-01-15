@@ -2,24 +2,36 @@ import { useState } from "react";
 import Card from "../Card/Card";
 import buildDeck from "../Card/Deck";
 
-let turn = 0;
+let playerOneTurn = true;
+
 export const Board = ({ hand, updateHand }) => {
   const [getDeck, setDeck] = useState(buildDeck("board"));
+
   const handleClick = (i: number, name: string) => {
-    if (hand.find((c) => c.name == name)) {
-      turn += 1;
-      if (turn % 2 == 0) {
-        getDeck[i].coin = "Silver";
-        getDeck[i].status = false;
-      } else {
-        getDeck[i].coin = "Gold";
-        getDeck[i].status = false;
-      }
+    let wasRemoval = false;
+    const playerHasRedJacks = hand.find(
+      (c) => c.name == "JHearts" || c.name == "JDiamonds"
+    );
+    const playerHasBlackJacks = hand.find(
+      (c) => c.name == "JClubs" || c.name == "JSpades"
+    );
+    const playerHasCard = hand.find((c) => c.name == name);
+    const coinColor = playerOneTurn ? "Silver" : "Gold";
+    const coinIsEmpty = getDeck[i].coin == "Empty";
+    if (!coinIsEmpty && playerHasRedJacks) {
+      getDeck[i].coin = "Empty";
+      wasRemoval = true;
+      playerOneTurn = !playerOneTurn;
+      updateHand(name, wasRemoval);
+      setDeck([...getDeck]);
+    }
+    if (coinIsEmpty && (playerHasCard || playerHasBlackJacks)) {
+      getDeck[i].coin = coinColor;
+      playerOneTurn = !playerOneTurn;
       updateHand(name);
       setDeck([...getDeck]);
     }
   };
-
   return (
     <div className="board">
       {getDeck.map((C, i) => (
