@@ -14,7 +14,9 @@ return [stack,hand]
 export const cardPicker = (stack) => {
 let maxValue = stack.length
 let indexToRemove= Math.floor(Math.random()*maxValue)
+console.log(stack.length)
 let card = stack.splice(indexToRemove, 1)
+console.log(stack.length)
 return [stack, card[0]]
 }
 

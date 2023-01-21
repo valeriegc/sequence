@@ -6,14 +6,12 @@ import Hand from "./lib/Card/Hand";
 import Coin from "./lib/Card/Coin";
 import { useState } from "react";
 
+let [stack, hand] = initializeStack();
 function App() {
-  let [stack, hand] = initializeStack();
-
   const [getHand, setHand] = useState(hand);
 
   const updateHand = (name, wasRemoval) => {
     let index = getHand.findIndex((c) => c.name == name);
-    console.log(index);
     if (index == -1 && !wasRemoval) {
       index = getHand.findIndex(
         (c) => c.name == "JSpades" || c.name == "JClubs"
