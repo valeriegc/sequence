@@ -3,12 +3,14 @@ import buildDeck from "./lib/Card/Deck";
 export const initializeStack = () => {
      let stack = buildDeck("stack")
      const hand = []
-     for (let i=0; i<5; i++){
+     const handSheldon =[]
+     for (let i=0; i<10; i++){
         let [newStack, card] = cardPicker(stack)
-        hand.push(card)
+        if (i%2==0)hand.push(card)
+        else handSheldon.push(card)
         stack = newStack
      }
-return [stack,hand]
+return [stack,hand,handSheldon]
 }
 
 export const cardPicker = (stack) => {

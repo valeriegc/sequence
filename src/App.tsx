@@ -7,61 +7,61 @@ import Coin from "./lib/Card/Coin";
 import { useState } from "react";
 import buildDeck from "./lib/Card/Deck";
 import { checkBoard } from "./lib/Board/CheckBoard";
+import { runSheldon } from "./lib/Opponent/Sheldon1";
+import { updateHand } from "./UpdateHand";
 
-let [stack, hand] = initializeStack();
-let playerOneTurn = true;
+let [stack, hand, handSheldon] = initializeStack();
+let playerTurn = true;
 function App() {
-  const [getHand, setHand] = useState(hand);
+  const [getHandPlayer, setHandPlayer] = useState(hand);
+  const [getHandSheldon, setHandSheldon] = useState(handSheldon);
   const [getBoard, setBoard] = useState(buildDeck("board"));
 
-  const updateHand = (name, wasRemoval) => {
-    let index = getHand.findIndex((c) => c.name == name);
-    if (index == -1 && !wasRemoval) {
-      index = getHand.findIndex(
-        (c) => c.name == "JSpades" || c.name == "JClubs"
-      );
-    } else if (index == -1 && wasRemoval) {
-      index = getHand.findIndex(
-        (c) => c.name == "JHearts" || c.name == "JDiamonds"
-      );
-    }
-    let [newStack, card] = cardPicker(stack);
-    getHand.splice(index, 1, card);
-    setHand([...getHand]);
-    stack = newStack;
-  };
-  const handleClickCard = (i: number, name: string) => {
+  const handleClickCard = async (i: number, name: string) => {
     let wasRemoval = false;
-    const playerHasRedJacks = getHand.find(
+    const playerHasRedJacks = getHandPlayer.find(
       (c) => c.name == "JHearts" || c.name == "JDiamonds"
     );
-    const playerHasBlackJacks = getHand.find(
+    const playerHasBlackJacks = getHandPlayer.find(
       (c) => c.name == "JClubs" || c.name == "JSpades"
     );
-    const playerHasCard = getHand.find((c) => c.name == name);
-    const coinColor = playerOneTurn ? "Silver" : "Gold";
+    const playerHasCard = getHandPlayer.find((c) => c.name == name);
+    const coinColor = playerTurn ? "Silver" : "Gold";
     const coinIsEmpty = getBoard[i].coin == "Empty";
     if (!coinIsEmpty && playerHasRedJacks) {
       getBoard[i].coin = "Empty";
       wasRemoval = true;
-      playerOneTurn = !playerOneTurn;
-      updateHand(name, wasRemoval);
+      playerTurn = !playerTurn;
+      let arr = updateHand(stack, getHandPlayer, name, wasRemoval);
+      setHandPlayer(arr[0]);
+      stack = arr[1];
       setBoard([...getBoard]);
     }
     if (coinIsEmpty && (playerHasCard || playerHasBlackJacks)) {
       getBoard[i].coin = coinColor;
-      playerOneTurn = !playerOneTurn;
-      updateHand(name, false);
+      playerTurn = !playerTurn;
+      let arr = updateHand(stack, getHandPlayer, name, false);
+      setHandPlayer(arr[0]);
+      stack = arr[1];
       setBoard([...getBoard]);
     }
 
     checkBoard(getBoard);
-    //runSheldon(getBoard);
+    if (!playerTurn) {
+      let cardIndexSheldon = await runSheldon(getBoard, getHandSheldon);
+      playerTurn = true;
+      let cardToRemove = getBoard[cardIndexSheldon].name;
+      let arr = updateHand(stack, getHandSheldon, cardToRemove, false);
+      setHandSheldon(arr[0]);
+      stack = arr[1];
+      getBoard[cardIndexSheldon].coin = "Gold";
+      setBoard([...getBoard]);
+    }
   };
   return (
     <div className="App">
       <Board handleClickCard={handleClickCard} getBoard={getBoard}></Board>
-      <Hand hand={getHand}></Hand>
+      <Hand hand={getHandPlayer}></Hand>
       <div className="zoomer">
         <Coin color={"Red"}></Coin>
       </div>
